@@ -16,7 +16,7 @@ public class Consumer implements Runnable {
         context.start();
 
         ExecutorService service = Executors.newFixedThreadPool(10);
-        for (int i = 0; i <2 ; i++) {
+        for (int i = 0; i < 2; i++) {
             service.execute(new Consumer());
 
         }
@@ -30,12 +30,12 @@ public class Consumer implements Runnable {
         Thread.currentThread().getId();
 
         RpcContext.getContext().setAttachment("name", Thread.currentThread().getName());
-        DemoService demoService = (DemoService) context.getBean("demoService"); // get service invocation proxy
-        String hello = demoService.sayHello("world"); // do invoke!
-        System.out.println(hello); // cool, how are you~
+        DemoService demoService = (DemoService) context.getBean("demoService");
+        String hello = demoService.sayHello("world");
+        System.out.println(hello);
 
-        //DemoService demoService2 = (DemoService) context.getBean("demoService"); // get service invocation proxy
-        String hello2 = demoService.sayHello("world2"); // do invoke!
+        //第二次调用，为了验证dubbo隐式参数"setAttachment 设置的 KV 对，在完成一次远程调用会被清空，即多次远程调用要多次设置"
+        String hello2 = demoService.sayHello("world2");
         System.out.println(hello2); // cool, how are you~
     }
 }
