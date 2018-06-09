@@ -4,6 +4,7 @@ import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alibaba.dubbo.demo.api.DemoService;
 
+import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -24,11 +25,13 @@ public class Consumer implements Runnable {
 
     }
 
+    public static String getTraceId() {
+        return UUID.randomUUID().toString().replace("-", "");
+
+    }
+
     public void run() {
-
-        Thread.currentThread().getId();
-
-        RpcContext.getContext().setAttachment("name", Thread.currentThread().getName());
+        RpcContext.getContext().setAttachment("traceId", getTraceId());
         DemoService demoService = (DemoService) context.getBean("demoService");
         String hello = demoService.sayHello("world");
         System.out.println(hello);

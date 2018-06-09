@@ -72,17 +72,19 @@ public class DemoServiceAspect {
 
 
     @Around("executeMethod()")
-    public Object myAround(ProceedingJoinPoint point) throws Throwable {
+    public Object doAround(ProceedingJoinPoint point) throws Throwable {
+        String traceId = RpcContext.getContext().getAttachment("traceId");
         String methodName = point.getSignature().getName();
-        System.out.println("the method:" + methodName + " start");
-        String id = RpcContext.getContext().getAttachment("name");
-        System.out.println("call:" + id);
-        Arrays.stream(point.getArgs()).forEach(s -> System.out.println("args:" + s))
-        ;
+        System.out.println("traceId:" + traceId + ",the method:" + methodName + " start");
+        Arrays.stream(point.getArgs()).forEach(s -> System.out.println("traceId:" + traceId + ",args:" + s));
+
+        long beginTime = System.currentTimeMillis();
         // 手动执行目标方法
         Object obj = point.proceed();
+        long endTime = System.currentTimeMillis();
 
-        System.out.println("the method:" + methodName + "is end");
+        System.out.println("traceId:" + traceId + ",the method:" + methodName
+                + " is end used time:" + (endTime - beginTime) + "ms");
         return obj;
     }
 }

@@ -24,14 +24,11 @@ import com.alibaba.dubbo.rpc.RpcContext;
 public class DemoServiceImpl implements DemoService {
 
     public String sayHello(String name) {
-        String id =  RpcContext.getContext().getAttachment("name");
-        System.out.println(id);
-       int v = 12/0;
-//        try {
-//            Thread.sleep(7000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return "Hello " + name + ", response form provider: " + RpcContext.getContext().getLocalAddress();
     }
