@@ -20,7 +20,7 @@
     <dubbo:protocol name="dubbo" port="20880" />
     
     <!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="com.alibaba.dubbo.demo.DemoService" ref="demoService"  timeout="5000"/>
+    <dubbo:service interface="com.alibaba.dubbo.demo.api.DemoService" ref="demoService"  timeout="5000"/>
     <!-- 和本地bean一样实现服务 -->
     <bean id="demoService" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl" />
 </beans>

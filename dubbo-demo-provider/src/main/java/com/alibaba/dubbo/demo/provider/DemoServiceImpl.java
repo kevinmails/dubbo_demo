@@ -18,7 +18,7 @@ package com.alibaba.dubbo.demo.provider;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.alibaba.dubbo.demo.DemoService;
+import com.alibaba.dubbo.demo.api.DemoService;
 import com.alibaba.dubbo.rpc.RpcContext;
 
 public class DemoServiceImpl implements DemoService {
