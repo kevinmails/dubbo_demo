@@ -1,6 +1,10 @@
 package com.alibaba.dubbo.demo.consumer;
 
+import com.alibaba.dubbo.demo.api.LoginService;
+import com.alibaba.dubbo.demo.api.bean.Fruit;
 import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alibaba.dubbo.demo.api.DemoService;
 
@@ -8,7 +12,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Consumer implements Runnable {
+public class Consumer2 implements Runnable {
+    private static Log LOG = LogFactory.getLog(Consumer2.class);
 
     static ClassPathXmlApplicationContext context = null;
 
@@ -18,7 +23,7 @@ public class Consumer implements Runnable {
 
         ExecutorService service = Executors.newFixedThreadPool(10);
         for (int i = 0; i < 1; i++) {
-            service.execute(new Consumer());
+            service.execute(new Consumer2());
 
         }
         service.shutdown();
@@ -31,13 +36,16 @@ public class Consumer implements Runnable {
     }
 
     public void run() {
-        RpcContext.getContext().setAttachment("traceId", getTraceId());
+        String traceId = getTraceId();
+        RpcContext.getContext().setAttachment("traceId", traceId);
         DemoService demoService = (DemoService) context.getBean("demoService");
-        String hello = demoService.sayHello("world");
-        System.out.println(hello);
+        LoginService loginService = (LoginService) context.getBean("loginService");
 
-        //第二次调用，为了验证dubbo隐式参数"setAttachment 设置的 KV 对，在完成一次远程调用会被清空，即多次远程调用要多次设置"
-        String hello2 = demoService.sayHello("world2");
-        System.out.println(hello2); // cool, how are you~
+        Fruit fruit = demoService.getColor(new Fruit("Apple"));
+        LOG.info("Apple's  color is:" + fruit.getColor());
+
+        RpcContext.getContext().setAttachment("traceId", traceId);
+        boolean loggedIn = loginService.doLogin("kevin", "123456");
+        LOG.info("kevin is logged in:" + loggedIn);
     }
 }

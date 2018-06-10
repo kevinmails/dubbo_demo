@@ -1,12 +1,17 @@
 package com.bestpay.dubbo.demo.aspect;
 
 import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
 import java.sql.SQLOutput;
 import java.util.Arrays;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author 陈彬
@@ -17,7 +22,9 @@ import java.util.Arrays;
 @Aspect
 public class DemoServiceAspect {
 
-    @Pointcut("execution(* com.alibaba.dubbo.demo.provider.*.sayHello(..))")
+    private static Log LOG = LogFactory.getLog(DemoServiceAspect.class);
+
+    @Pointcut("execution(* com.alibaba.dubbo.demo.provider.*.*(..))")
     private void executeMethod() {
     }
 
@@ -73,18 +80,13 @@ public class DemoServiceAspect {
 
     @Around("executeMethod()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
-        String traceId = RpcContext.getContext().getAttachment("traceId");
+        String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
         String methodName = point.getSignature().getName();
-        System.out.println("traceId:" + traceId + ",the method:" + methodName + " start");
-        Arrays.stream(point.getArgs()).forEach(s -> System.out.println("traceId:" + traceId + ",args:" + s));
-
+        LOG.info(traceId + ", call method:" + methodName + " start" + ",request args:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
         long beginTime = System.currentTimeMillis();
-        // 手动执行目标方法
-        Object obj = point.proceed();
+        Object response = point.proceed();
         long endTime = System.currentTimeMillis();
-
-        System.out.println("traceId:" + traceId + ",the method:" + methodName
-                + " is end used time:" + (endTime - beginTime) + "ms");
-        return obj;
+        LOG.info(traceId + ", call method:" + methodName + " over,used:" + (endTime - beginTime) + "ms" + ",response args:" + response.toString());
+        return response;
     }
 }

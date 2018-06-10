@@ -19,18 +19,31 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.alibaba.dubbo.demo.api.DemoService;
+import com.alibaba.dubbo.demo.api.bean.Fruit;
 import com.alibaba.dubbo.rpc.RpcContext;
 
 public class DemoServiceImpl implements DemoService {
 
+    @Override
     public String sayHello(String name) {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
+//        try {
+//            Thread.sleep(7000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name
+                + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return "Hello " + name + ", response form provider: " + RpcContext.getContext().getLocalAddress();
     }
-    
+
+    @Override
+    public Fruit getColor(Fruit fruit) {
+        if ("Apple".equals(fruit.getName())) {
+            fruit.setColor("red");
+        } else {
+            fruit.setColor("oops");
+        }
+        return fruit;
+    }
+
 }
