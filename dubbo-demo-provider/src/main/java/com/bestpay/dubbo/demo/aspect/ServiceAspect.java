@@ -6,6 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.slf4j.MDC;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -38,7 +39,18 @@ public class ServiceAspect {
         String methodName = point.getSignature().getName();
         LOG.error("IN," + traceId + ",method:" + methodName + requestIp + ",requestArgs:"
                 + Stream.of(point.getArgs()).collect(Collectors.toList()).toString() + ",Exception" + e);
+        MDC.clear();
 
+    }
+
+    /**
+     * 最终通知
+     *
+     * @param point
+     */
+    @After("executeMethod()")
+    public void doAfter(JoinPoint point) {
+        MDC.clear();
     }
 
     /**
@@ -52,14 +64,16 @@ public class ServiceAspect {
 
     @Around("executeMethod()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
-        String methodName = ",method:" + RpcContext.getContext().getMethodName();
+        String methodName = "method:" + RpcContext.getContext().getMethodName();
         String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
         String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
-        LOG.info("IN," + traceId + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
+        MDC.put("traceId", traceId);
+        LOG.info("IN," + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
         long beginTime = System.currentTimeMillis();
         Object response = point.proceed();
         long endTime = System.currentTimeMillis();
-        LOG.info("OUT," + traceId + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
+        LOG.info("OUT," + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
+        MDC.clear();
         return response;
     }
 }

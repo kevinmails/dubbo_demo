@@ -21,17 +21,21 @@ import java.util.Date;
 import com.alibaba.dubbo.demo.api.DemoService;
 import com.alibaba.dubbo.demo.api.bean.Fruit;
 import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class DemoServiceImpl implements DemoService {
+    private static Log LOG = LogFactory.getLog(DemoServiceImpl.class);
 
     @Override
     public String sayHello(String name) {
+//        int i = 2/0;
 //        try {
 //            Thread.sleep(7000);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
-        System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name
+        LOG.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name
                 + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return "Hello " + name + ", response form provider: " + RpcContext.getContext().getLocalAddress();
     }
