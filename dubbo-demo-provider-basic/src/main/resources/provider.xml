@@ -7,22 +7,18 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         ">
-    <!-- 提供方应用信息，用于计算依赖关系,如果你的工程provide,consumer 都提供并且又分开在两个文件里，
-         这个标签在consumer的文件里就不要再写了
-    -->
-    <dubbo:application name="demo-app-provider"/>
+    <!-- 提供方应用信息，用于计算依赖关系 -->
+    <dubbo:application name="basic-app"/>
 
     <!-- 使用zookeeper广播注册中心暴露服务地址 -->
     <dubbo:registry protocol="zookeeper" address="118.24.157.71:2181"/>
 
     <!-- 用dubbo协议在20880端口暴露服务 -->
-    <dubbo:protocol name="dubbo" port="20880"/>
+    <dubbo:protocol name="dubbo" port="20881"/>
 
     <!-- 声明需要暴露的服务接口 -->
-    <dubbo:service interface="com.alibaba.dubbo.demo.api.DemoService" ref="demoService" timeout="5000"/>
-    <dubbo:service interface="com.alibaba.dubbo.demo.api.LoginService" ref="loginService" timeout="5000"/>
+    <dubbo:service interface="com.alibaba.dubbo.demo.api.BasicService" ref="basicService" timeout="5000"/>
 
     <!-- 和本地bean一样实现服务 -->
-    <bean id="demoService" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl"/>
-    <bean id="loginService" class="com.alibaba.dubbo.demo.provider.LoginServiceImpl"/>
+    <bean id="basicService" class="com.alibaba.dubbo.demo.provide.basic.BasicServiceImpl"/>
 </beans>
