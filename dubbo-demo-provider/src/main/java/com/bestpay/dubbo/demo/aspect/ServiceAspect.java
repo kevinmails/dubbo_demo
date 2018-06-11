@@ -7,9 +7,6 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 
-import java.sql.SQLOutput;
-import java.util.Arrays;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,40 +17,12 @@ import java.util.stream.Stream;
  */
 
 @Aspect
-public class DemoServiceAspect {
+public class ServiceAspect {
 
-    private static Log LOG = LogFactory.getLog(DemoServiceAspect.class);
+    private static Log LOG = LogFactory.getLog(ServiceAspect.class);
 
-    @Pointcut("execution(* com.alibaba.dubbo.demo.provider.*.*(..))")
+    @Pointcut("execution(* com.alibaba.dubbo.demo.api.*.*(..))")
     private void executeMethod() {
-    }
-
-
-    /**
-     * 前置通知
-     *
-     * @param point
-     */
-    @Before("executeMethod()")
-    public void doBefore(JoinPoint point) {
-
-        String id = RpcContext.getContext().getAttachment("name");
-//        System.out.println("call:" + id);
-        //Do nothing
-//        LOG.debug("execute called!");
-    }
-
-
-    /**
-     * 最终通知
-     *
-     * @param point
-     */
-    @After("executeMethod()")
-    public void doAfter(JoinPoint point) {
-//        TraceContext.removeTracer();
-//        LOG.debug("最终通知理完成");
-
     }
 
     /**
@@ -64,8 +33,11 @@ public class DemoServiceAspect {
      */
     @AfterThrowing(value = "executeMethod()", throwing = "e")
     public void doAfterThrowing(JoinPoint point, Throwable e) {
+        String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
+        String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
         String methodName = point.getSignature().getName();
-        System.out.println("the method:" + methodName + " get Exception" + e);
+        LOG.error("IN," + traceId + ",method:" + methodName + requestIp + ",requestArgs:"
+                + Stream.of(point.getArgs()).collect(Collectors.toList()).toString() + ",Exception" + e);
 
     }
 
@@ -81,12 +53,13 @@ public class DemoServiceAspect {
     @Around("executeMethod()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
         String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
+        String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
         String methodName = point.getSignature().getName();
-        LOG.info(traceId + ", call method:" + methodName + " start" + ",request args:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
+        LOG.info("IN," + traceId + ",method:" + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
         long beginTime = System.currentTimeMillis();
         Object response = point.proceed();
         long endTime = System.currentTimeMillis();
-        LOG.info(traceId + ", call method:" + methodName + " over,used:" + (endTime - beginTime) + "ms" + ",response args:" + response.toString());
+        LOG.info("OUT," + traceId + ",method:" + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
         return response;
     }
 }

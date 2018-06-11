@@ -2,6 +2,9 @@ package com.bestpay.dubbo.demo.start;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * @author KEVIN
+ */
 public class DubboProviderDemo {
     public static ClassPathXmlApplicationContext context;
 

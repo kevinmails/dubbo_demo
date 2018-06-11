@@ -11,7 +11,7 @@
     <!-- 自动扫描被@Aspect注解的bean-->
     <aop:aspectj-autoproxy/>
 
-    <bean id="tracerAspect" class="com.bestpay.dubbo.demo.aspect.DemoServiceAspect"/>
+    <bean id="tracerAspect" class="com.bestpay.dubbo.demo.aspect.ServiceAspect"/>
 
     <bean id="demoServiceImpl" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl"/>
 
