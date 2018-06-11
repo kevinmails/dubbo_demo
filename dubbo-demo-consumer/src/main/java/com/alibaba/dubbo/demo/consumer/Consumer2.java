@@ -2,6 +2,7 @@ package com.alibaba.dubbo.demo.consumer;
 
 import com.alibaba.dubbo.demo.api.LoginService;
 import com.alibaba.dubbo.demo.api.bean.Fruit;
+import com.alibaba.dubbo.demo.util.TraceLogUtil;
 import com.alibaba.dubbo.rpc.RpcContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +38,7 @@ public class Consumer2 implements Runnable {
 
     public void run() {
         String traceId = getTraceId();
-        RpcContext.getContext().setAttachment("traceId", traceId);
+        TraceLogUtil.setTraceId(traceId);
         DemoService demoService = (DemoService) context.getBean("demoService");
         LoginService loginService = (LoginService) context.getBean("loginService");
 

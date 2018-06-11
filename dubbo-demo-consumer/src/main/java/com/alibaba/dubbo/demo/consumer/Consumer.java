@@ -1,5 +1,6 @@
 package com.alibaba.dubbo.demo.consumer;
 
+import com.alibaba.dubbo.demo.util.TraceLogUtil;
 import com.alibaba.dubbo.rpc.RpcContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import com.alibaba.dubbo.demo.api.DemoService;
@@ -31,7 +32,7 @@ public class Consumer implements Runnable {
     }
 
     public void run() {
-        RpcContext.getContext().setAttachment("traceId", getTraceId());
+        TraceLogUtil.setTraceId();
         DemoService demoService = (DemoService) context.getBean("demoService");
         String hello = demoService.sayHello("world");
         System.out.println(hello);
