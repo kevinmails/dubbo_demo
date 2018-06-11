@@ -52,14 +52,14 @@ public class ServiceAspect {
 
     @Around("executeMethod()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
+        String methodName = ",method:" + RpcContext.getContext().getMethodName();
         String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
         String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
-        String methodName = point.getSignature().getName();
-        LOG.info("IN," + traceId + ",method:" + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
+        LOG.info("IN," + traceId + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
         long beginTime = System.currentTimeMillis();
         Object response = point.proceed();
         long endTime = System.currentTimeMillis();
-        LOG.info("OUT," + traceId + ",method:" + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
+        LOG.info("OUT," + traceId + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
         return response;
     }
 }
