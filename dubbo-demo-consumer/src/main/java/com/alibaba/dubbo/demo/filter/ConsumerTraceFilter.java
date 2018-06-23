@@ -23,7 +23,9 @@ public class ConsumerTraceFilter implements Filter {
         long beginTime = System.currentTimeMillis();
         Result result = invoker.invoke(invocation);
         long endTime = System.currentTimeMillis();
-        log.info("dubboOut:method:{},used:{}ms,responseArgs:{}", methodName, String.valueOf(endTime - beginTime), result);
+        String ip = invoker.getUrl().getAddress();
+        log.info("dubboOut:method:{},used:{}ms,responseIp:{},responseArgs:{}"
+                , methodName, String.valueOf(endTime - beginTime), ip, result);
         return result;
     }
 }
