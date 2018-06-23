@@ -1,4 +1,4 @@
-package com.alibaba.dubbo.demo.util;
+package com.bestpay.dubbo.demo.util;
 
 import com.alibaba.dubbo.rpc.RpcContext;
 

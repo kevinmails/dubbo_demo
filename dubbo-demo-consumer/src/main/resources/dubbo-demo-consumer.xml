@@ -12,8 +12,9 @@
 
     
     <dubbo:registry protocol="zookeeper" address="118.24.157.71:2181" />
+    <dubbo:consumer filter="consumerTraceFilter"/>
 
     <!-- 生成远程服务代理，可以和本地bean一样使用demoService -->
-    <dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.api.DemoService" timeout="4000"/>
+    <dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.api.DemoService" timeout="4000" retries="0"/>
     <dubbo:reference id="loginService" interface="com.alibaba.dubbo.demo.api.LoginService"/>
 </beans>

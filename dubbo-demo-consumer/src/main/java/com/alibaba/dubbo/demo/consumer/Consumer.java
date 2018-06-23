@@ -35,8 +35,9 @@ public class Consumer implements Runnable {
 
     public void run() {
         TraceLogUtil.setTraceId();
+        log.info("setTraceId:{}",TraceLogUtil.getTraceId());
         DemoService demoService = (DemoService) context.getBean("demoService");
-        String hello = demoService.sayHello("world");
+        String hello = demoService.sayHello("abc");
         log.info(hello);
 
         //第二次调用，为了验证dubbo隐式参数"setAttachment 设置的 KV 对，在完成一次远程调用会被清空，即多次远程调用要多次设置"
