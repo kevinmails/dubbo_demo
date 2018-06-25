@@ -1,6 +1,7 @@
 package com.bestpay.dubbo.demo.aspect;
 
 import com.alibaba.dubbo.rpc.RpcContext;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.JoinPoint;
@@ -16,11 +17,9 @@ import java.util.stream.Stream;
  * Date 2018/6/9
  * Time 17:50
  */
-
+@Slf4j
 @Aspect
 public class ServiceAspect {
-
-    private static Log LOG = LogFactory.getLog(ServiceAspect.class);
 
     @Pointcut("execution(* com.alibaba.dubbo.demo.api.*.*(..))")
     private void executeMethod() {
@@ -37,7 +36,7 @@ public class ServiceAspect {
         String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
         String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
         String methodName = point.getSignature().getName();
-        LOG.error("IN," + traceId + ",method:" + methodName + requestIp + ",requestArgs:"
+        log.error("IN," + traceId + ",method:" + methodName + requestIp + ",requestArgs:"
                 + Stream.of(point.getArgs()).collect(Collectors.toList()).toString() + ",Exception" + e);
         MDC.clear();
 
@@ -64,15 +63,16 @@ public class ServiceAspect {
 
     @Around("executeMethod()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
+    log.info("class:{}",point.getTarget().getClass());
         String methodName = "method:" + RpcContext.getContext().getMethodName();
         String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
         String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
         MDC.put("traceId", traceId);
-        LOG.info("IN," + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
+        log.info("IN," + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
         long beginTime = System.currentTimeMillis();
         Object response = point.proceed();
         long endTime = System.currentTimeMillis();
-        LOG.info("OUT," + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
+        log.info("OUT," + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
         MDC.clear();
         return response;
     }
