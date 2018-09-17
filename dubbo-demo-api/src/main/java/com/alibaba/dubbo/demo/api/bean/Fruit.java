@@ -1,7 +1,11 @@
 package com.alibaba.dubbo.demo.api.bean;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
@@ -9,10 +13,12 @@ import java.io.Serializable;
  * @author kevin
  */
 @Data
+@AllArgsConstructor
 public class Fruit implements Serializable {
     private static final long serialVersionUID = -3053414590365211252L;
 
-    @NotNull(message = "name不能为空")
+    @NotEmpty(message = "name不能为空")
+    @NotBlank(message = "name不能只含空格")
     private String name;
     private String color;
 
