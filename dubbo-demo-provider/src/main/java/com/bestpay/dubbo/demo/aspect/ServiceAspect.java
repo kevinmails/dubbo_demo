@@ -63,8 +63,7 @@ public class ServiceAspect {
 
     @Around("executeMethod()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
-    log.info("class:{}",point.getTarget().getClass());
-        String methodName = "method:" + RpcContext.getContext().getMethodName();
+        String methodName = "method:" + point.getTarget().getClass().getName() + "." + point.getSignature().getName();
         String traceId = "traceId:" + RpcContext.getContext().getAttachment("traceId");
         String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
         MDC.put("traceId", traceId);

@@ -1,5 +1,7 @@
 package com.bestpay.dubbo.demo.filter;
 
+import com.alibaba.dubbo.common.Constants;
+import com.alibaba.dubbo.common.extension.Activate;
 import com.alibaba.dubbo.rpc.*;
 import com.bestpay.dubbo.demo.util.TraceLogUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
  * Time 11:44
  */
 @Slf4j
+@Activate(group = Constants.PROVIDER)
 public class ProviderTraceFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
