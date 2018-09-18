@@ -17,8 +17,8 @@ import java.io.Serializable;
 public class Fruit implements Serializable {
     private static final long serialVersionUID = -3053414590365211252L;
 
-    @NotEmpty(message = "name不能为空")
-    @NotBlank(message = "name不能只含空格")
+    @NotEmpty(message = "名字不能为空")
+    @NotBlank(message = "名字不能只含空格")
     private String name;
     private String color;
 

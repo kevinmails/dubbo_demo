@@ -12,6 +12,11 @@
     <groupId>com.test.demo</groupId>
     <artifactId>dubbo-demo-provider</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project >org.springframework.ver</project>
+        <org.springframework.ver>4.3.9.RELEASE</org.springframework.ver>
+
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -71,13 +76,19 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>4.3.9.RELEASE</version>
+            <version>${org.springframework.ver}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>4.3.9.RELEASE</version>
+            <version>${org.springframework.ver}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${org.springframework.ver}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -97,11 +108,6 @@
         <dependency>
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
-            <version>3.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.el</artifactId>
             <version>3.0.0</version>
         </dependency>
         <dependency>

@@ -1,5 +1,6 @@
 package com.alibaba.dubbo.demo.provider.validate;
 
+import com.alibaba.dubbo.demo.api.Validator;
 import com.bestpay.dubbo.demo.util.ValidatorUtil;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -10,9 +11,10 @@ import org.springframework.stereotype.Service;
  * Time 14:54
  */
 @Service
-public class Validator {
+public class BaseValidator implements Validator<Object> {
 
-    public void validate(Object obj){
-        ValidatorUtil.validateParams(obj);
+    @Override
+    public void doValidate(Object params) throws IllegalArgumentException {
+        ValidatorUtil.validateParams(params);
     }
 }

@@ -20,11 +20,9 @@ import java.util.Date;
 
 import com.alibaba.dubbo.demo.api.DemoService;
 import com.alibaba.dubbo.demo.api.bean.Fruit;
-import com.alibaba.dubbo.demo.provider.validate.Validator;
+import com.alibaba.dubbo.demo.provider.validate.BaseValidator;
 import com.alibaba.dubbo.rpc.RpcContext;
 import lombok.extern.log4j.Log4j;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Log4j
@@ -32,7 +30,7 @@ public class DemoServiceImpl implements DemoService {
 
 
     @Autowired
-    private Validator validator;
+    private BaseValidator validator;
 
     @Override
     public String sayHello(String name) {
@@ -51,8 +49,7 @@ public class DemoServiceImpl implements DemoService {
     public Fruit getColor(Fruit fruit) {
 
         try {
-
-            validator.validate(fruit);
+           this.doValidate(fruit);
         } catch (IllegalArgumentException e) {
             log.error(e.getMessage());
         }
@@ -65,4 +62,8 @@ public class DemoServiceImpl implements DemoService {
         return fruit;
     }
 
+    @Override
+    public void doValidate(Object params) throws IllegalArgumentException {
+        validator.doValidate(params);
+    }
 }
