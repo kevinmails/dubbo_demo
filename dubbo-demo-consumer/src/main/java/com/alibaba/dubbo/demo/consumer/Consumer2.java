@@ -42,7 +42,7 @@ public class Consumer2 implements Runnable {
         DemoService demoService = (DemoService) context.getBean("demoService");
         LoginService loginService = (LoginService) context.getBean("loginService");
 
-        Fruit fruit = demoService.getColor(new Fruit(null,"red"));
+        Fruit fruit = demoService.getColor(new Fruit(null,""));
         LOG.info("Apple's  color is:" + fruit.getColor());
 
         RpcContext.getContext().setAttachment("traceId", traceId);

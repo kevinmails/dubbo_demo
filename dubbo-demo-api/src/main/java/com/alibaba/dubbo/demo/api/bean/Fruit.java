@@ -20,6 +20,8 @@ public class Fruit implements Serializable {
     @NotEmpty(message = "名字不能为空")
     @NotBlank(message = "名字不能只含空格")
     private String name;
+
+    @NotEmpty(message = "颜色不能为空")
     private String color;
 
 }
