@@ -1,4 +1,4 @@
-package com.bestpay.dubbo.demo.start;
+package com.imcbb.dubbo.demo.start;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

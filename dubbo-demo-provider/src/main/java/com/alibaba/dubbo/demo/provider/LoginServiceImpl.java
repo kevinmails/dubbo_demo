@@ -2,7 +2,7 @@ package com.alibaba.dubbo.demo.provider;
 
 import com.alibaba.dubbo.demo.api.BasicService;
 import com.alibaba.dubbo.demo.api.LoginService;
-import com.bestpay.dubbo.demo.start.DubboProviderDemo;
+import com.imcbb.dubbo.demo.start.DubboProviderDemo;
 
 /**
  * @author KEVIN

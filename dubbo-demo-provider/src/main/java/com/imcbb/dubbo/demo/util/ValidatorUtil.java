@@ -1,4 +1,4 @@
-package com.bestpay.dubbo.demo.util;
+package com.imcbb.dubbo.demo.util;
 
 import org.hibernate.validator.HibernateValidator;
 

@@ -1,4 +1,4 @@
-package com.bestpay.dubbo.demo.aspect;
+package com.imcbb.dubbo.demo.aspect;
 
 import com.alibaba.dubbo.rpc.RpcContext;
 import lombok.extern.slf4j.Slf4j;

@@ -1,1 +1,1 @@
-providerTraceFilter=com.bestpay.dubbo.demo.filter.ProviderTraceFilter
+providerTraceFilter=com.imcbb.dubbo.demo.filter.ProviderTraceFilter

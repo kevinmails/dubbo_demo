@@ -1,8 +1,7 @@
 package com.alibaba.dubbo.demo.provider.validate;
 
 import com.alibaba.dubbo.demo.api.Validator;
-import com.bestpay.dubbo.demo.util.ValidatorUtil;
-import org.springframework.stereotype.Component;
+import com.imcbb.dubbo.demo.util.ValidatorUtil;
 import org.springframework.stereotype.Service;
 
 /**
