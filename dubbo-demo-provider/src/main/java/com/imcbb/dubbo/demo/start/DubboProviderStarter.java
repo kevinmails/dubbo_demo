@@ -5,7 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author KEVIN
  */
-public class DubboProviderDemo {
+public class DubboProviderStarter {
     public static ClassPathXmlApplicationContext context;
 
     public static void main(String[] args) throws Exception {

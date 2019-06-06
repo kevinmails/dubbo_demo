@@ -1,6 +1,7 @@
 package com.alibaba.dubbo.demo.provider.validate;
 
 import com.alibaba.dubbo.demo.api.Validator;
+import com.imcbb.dubbo.demo.util.ApacheValidatorUtil;
 import com.imcbb.dubbo.demo.util.ValidatorUtil;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ public class BaseValidator implements Validator<Object> {
 
     @Override
     public void doValidate(Object params) throws IllegalArgumentException {
-        ValidatorUtil.validateParams(params);
+//        ValidatorUtil.validateParams(params);
+        ApacheValidatorUtil.validateParams(params);
     }
 }

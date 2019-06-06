@@ -36,6 +36,7 @@ public class Consumer2 implements Runnable {
 
     }
 
+    @Override
     public void run() {
         String traceId = getTraceId();
         TraceLogUtil.setTraceId(traceId);

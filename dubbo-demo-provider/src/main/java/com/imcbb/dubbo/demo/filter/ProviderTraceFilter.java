@@ -7,7 +7,7 @@ import com.imcbb.dubbo.demo.util.TraceLogUtil;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author 陈彬
+ * @author kevin
  * Date 2018/6/23
  * Time 11:44
  */

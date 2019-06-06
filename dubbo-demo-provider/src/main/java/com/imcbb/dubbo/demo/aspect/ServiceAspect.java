@@ -9,6 +9,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.slf4j.MDC;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -52,6 +54,14 @@ public class ServiceAspect {
         MDC.clear();
     }
 
+
+    @Before("executeMethod()")
+    public void doBefor(JoinPoint point){
+        log.info("bf,bf");
+
+    }
+
+
     /**
      * 环绕通知
      *
@@ -68,10 +78,10 @@ public class ServiceAspect {
         String requestIp = ",requestIp:" + RpcContext.getContext().getRemoteAddress();
         MDC.put("traceId", traceId);
         log.info("IN," + methodName + requestIp + ",requestArgs:" + Stream.of(point.getArgs()).collect(Collectors.toList()).toString());
-        long beginTime = System.currentTimeMillis();
+        Instant now = Instant.now();
         Object response = point.proceed();
-        long endTime = System.currentTimeMillis();
-        log.info("OUT," + methodName + requestIp + ",used:" + (endTime - beginTime) + "ms" + ",responseArgs:" + response.toString());
+        long used = ChronoUnit.MILLIS.between(now, Instant.now());
+        log.info("OUT," + methodName + requestIp + ",used:" + used + "ms" + ",responseArgs:" + response.toString());
         MDC.clear();
         return response;
     }
