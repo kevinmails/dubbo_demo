@@ -18,7 +18,7 @@ public interface ApacheValidatorUtil {
     /**
      * Build ValidatorFactory
      */
-    ValidatorFactory FACTORY = Validation.byProvider(ApacheValidationProvider.class).configure().addProperty().buildValidatorFactory();
+    ValidatorFactory FACTORY = Validation.byProvider(ApacheValidationProvider.class).configure().buildValidatorFactory();
 
     static <T> void validateParams(T validateModel) {
         javax.validation.Validator validator = FACTORY.getValidator();
