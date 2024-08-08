@@ -35,11 +35,11 @@ public class DemoServiceImpl implements DemoService {
     @Override
     public String sayHello(String name) {
 //        int i = 2/0;
-//        try {
-//            Thread.sleep(7000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(7000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         log.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name
                 + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return "Hello " + name + ", response form provider: " + RpcContext.getContext().getLocalAddress();

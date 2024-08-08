@@ -1,6 +1,6 @@
 package com.imcbb.dubbo.demo.util;
 
-import com.alibaba.dubbo.rpc.RpcContext;
+import org.apache.dubbo.rpc.RpcContext;
 
 import java.util.UUID;
 
